@@ -1,10 +1,17 @@
 using System.Collections.Generic;
-using System.Drawing;
-using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class LevelLoader : MonoBehaviour {
 
+    [Header("Spawnables")]
+    [SerializeField]
+    private SpawnInfo boundaryPrefab;
+
+    [SerializeField]
+    private SpawnInfo[] spawnablePrefabs;
+
+    [Header("Others")]
     [SerializeField]
     private Transform actorRoot;
 
@@ -12,32 +19,51 @@ public class LevelLoader : MonoBehaviour {
     private TextAsset level;
 
     [SerializeField]
-    private SpawnTag[] spawnablePrefabs;
-
-    [SerializeField]
     private int tilesPerSide = 26;
 
-    private Dictionary<char, GameObject> spawnablePerIdentifier;
+    private Dictionary<char, SpawnInfo> spawnablePerIdentifier;
+
+    private static readonly char BoundaryIdentifier = 'X';
 
     private void Awake() {
         this.InitializeSpawnables();
     }
 
     private void InitializeSpawnables() {
-        this.spawnablePerIdentifier = new Dictionary<char, GameObject>();
+        this.spawnablePerIdentifier = new Dictionary<char, SpawnInfo>();
 
-        foreach (SpawnTag tag in spawnablePrefabs) {
-            if (this.spawnablePerIdentifier.ContainsKey(tag.Identifier)) {
-                Debug.LogError($"Duplicate spawn tag found: {tag.Identifier}");
+        foreach (SpawnInfo spawnInfo in spawnablePrefabs) {
+            if (this.spawnablePerIdentifier.ContainsKey(spawnInfo.Identifier)) {
+                Debug.LogError($"Duplicate spawn identifier found: {spawnInfo.Identifier}");
                 continue;
             }
 
-            this.spawnablePerIdentifier[tag.Identifier] = tag.gameObject;
+            this.spawnablePerIdentifier[spawnInfo.Identifier] = spawnInfo;
         }
     }
 
+    private void InjectBoundaries(ref string text, ref int tilesPerSide) {
+        // add 2 for the boundaries on each side
+        tilesPerSide += 2;
+
+        string boundaryLine = string.Empty;
+
+        for (int i = 0; i < tilesPerSide - 1; i++) {
+            boundaryLine = $"{BoundaryIdentifier}{boundaryLine}";
+        }
+
+        text = $"{boundaryLine}\n{text}\n{boundaryLine}";
+
+        string linebreak = @"(\r\n|\r|\n)";
+        string boundary = $"{BoundaryIdentifier}{BoundaryIdentifier}";
+        text = Regex.Replace(text, linebreak, boundary);
+    }
+
     private void LoadLevel(TextAsset level) {
-        string text = level.text.Replace("\n", string.Empty).Replace("\r", string.Empty);
+        string text = level.text;
+        int tilesPerSide = this.tilesPerSide;
+
+        this.InjectBoundaries(ref text, ref tilesPerSide);
 
         for (int i = 0; i < text.Length; i ++) {
             char identifier = text[i];
@@ -51,22 +77,27 @@ public class LevelLoader : MonoBehaviour {
                 continue;
             }
 
-            int x = i % tilesPerSide;
-            int z = tilesPerSide - (i / tilesPerSide);
             float offset = tilesPerSide * 0.5f;
+            float x = i % tilesPerSide - offset;
+            float z = tilesPerSide - (i / tilesPerSide) - offset;
 
             //Debug.Log($"{i}: x:{x} z:{z} char:{text[i]}");
-            GameObject prefab = this.spawnablePerIdentifier[identifier];
-
-            GameObject actor = Object.Instantiate<GameObject>(
-                prefab,
-                new Vector3(x - offset + 0.5f, 0.5f, z - offset - 0.5f),
-                Quaternion.identity,
-                this.actorRoot
-            );
-
-            actor.name = $"{prefab.name} ({x}, {z})";
+            this.Spawn(this.spawnablePerIdentifier[identifier], x, z);
         }
+    }
+
+    private void Spawn(SpawnInfo spawnInfo, float x, float z) {
+        Vector2 tileSize = spawnInfo.TileSize;
+        Vector3 position = new Vector3(x + tileSize.x * 0.5f, 0.5f, z - tileSize.y * 0.5f);
+
+        GameObject actor = Object.Instantiate<GameObject>(
+            spawnInfo.gameObject,
+            position,
+            Quaternion.identity,
+            this.actorRoot
+        );
+
+        actor.name = $"{spawnInfo.name} ({x}, {z})";
     }
 
     private void Start() {

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8117951471215279422}
   - component: {fileID: -3677838465726309463}
   m_Layer: 0
-  m_Name: Eagle
+  m_Name: Boundary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 8117951471215279423}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 2, y: 1, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8b8a75ebd390a8349a2a52c12de7d28b, type: 2}
+  - {fileID: 2100000, guid: b62c544ca8e13d44b9e8b380e9f23f62, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -110,5 +110,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 789f1a11ba9b9e148a5ab89dfb47f094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Identifier>k__BackingField: 71
-  <TileSize>k__BackingField: {x: 2, y: 2}
+  <Identifier>k__BackingField: 88
