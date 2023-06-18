@@ -1,5 +1,5 @@
-            EE            
-            EE            
+            E             
+                          
   BB  BB  BB  BB  BB  BB  
   BB  BB  BB  BB  BB  BB  
   BB  BB  BB  BB  BB  BB  
@@ -22,5 +22,5 @@ SS  BBBB          BBBB  SS
   BB  BB          BB  BB  
   BB  BB          BB  BB  
   BB  BB   BBBB   BB  BB  
-        PP BGGB PP        
-        PP BGGB PP        
+        P  BG B P         
+           B  B           
