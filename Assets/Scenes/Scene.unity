@@ -507,21 +507,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8296684235613812525, guid: 770ba1af6a6a7c64d8fb6b035e8497f6, type: 3}
-      propertyPath: m_Mass
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8296684235613812525, guid: 770ba1af6a6a7c64d8fb6b035e8497f6, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8296684235613812528, guid: 770ba1af6a6a7c64d8fb6b035e8497f6, type: 3}
       propertyPath: m_Name
       value: Floor
-      objectReference: {fileID: 0}
-    - target: {fileID: 8296684235613812529, guid: 770ba1af6a6a7c64d8fb6b035e8497f6, type: 3}
-      propertyPath: m_Convex
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 770ba1af6a6a7c64d8fb6b035e8497f6, type: 3}
