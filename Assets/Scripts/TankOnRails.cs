@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Tank : MonoBehaviour {
+public class TankOnRails : MonoBehaviour {
 
     [Header("Input")]
     [SerializeField]
@@ -36,7 +36,7 @@ public class Tank : MonoBehaviour {
     [SerializeField]
     private Transform visuals;
 
-    private Vector2 movementInput;
+    private Vector3 movementInput;
     private new Rigidbody rigidbody;
 
     private void Awake() {
@@ -44,30 +44,27 @@ public class Tank : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        if (!Mathf.Approximately(this.movementInput.y, 0.0f)) {
-            Vector3 localVelocity = this.transform.InverseTransformDirection(this.rigidbody.velocity);
+        Vector3 localVelocity = this.transform.InverseTransformDirection(this.rigidbody.velocity);
 
+        if (!Mathf.Approximately(this.movementInput.z, 0.0f)) {
             if (localVelocity.z < maximumSpeed && localVelocity.z > -maximumSpeed){
                 this.rigidbody.AddForce(
-                    this.transform.forward * this.movementInput.y * acceleration * this.rigidbody.mass
+                    this.transform.forward * this.movementInput.z * acceleration * this.rigidbody.mass
                 );
             }
         }
-
-        if (! Mathf.Approximately(this.movementInput.x, 0.0f)) {
-            if (this.rigidbody.angularVelocity.magnitude < this.maximumTurnSpeed) {
-                // invert turn direction when we're moving backwards
-                float direction = Mathf.Sign(this.movementInput.y);
-
-                this.rigidbody.AddTorque(
-                    this.transform.up * this.movementInput.x * this.angularAcceleration * this.rigidbody.mass * direction
+ 
+        if (!Mathf.Approximately(this.movementInput.x, 0.0f)) {
+            if (localVelocity.x < maximumSpeed && localVelocity.x > -maximumSpeed) {
+                this.rigidbody.AddForce(
+                    this.transform.right * this.movementInput.x * acceleration * this.rigidbody.mass
                 );
             }
         }
     }
 
     private void HandleMovementInput() {
-        this.movementInput.Set(Input.GetAxis(this.horizontalAxis), Input.GetAxis(this.verticalAxis));
+        this.movementInput.Set(Input.GetAxis(this.horizontalAxis), 0.0f, Input.GetAxis(this.verticalAxis));
     }
 
     private void HandleShootingInput() {
@@ -78,6 +75,12 @@ public class Tank : MonoBehaviour {
                 this.visuals.rotation,
                 this.actorRoot
             );
+        }
+    }
+
+    private void LateUpdate() {
+        if (!Mathf.Approximately(this.movementInput.magnitude, 0.0f)) {
+            this.visuals.LookAt(this.visuals.position + this.movementInput);
         }
     }
 
