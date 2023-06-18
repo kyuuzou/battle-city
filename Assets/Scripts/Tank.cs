@@ -3,32 +3,56 @@ using UnityEngine;
 public class Tank : MonoBehaviour {
 
     [SerializeField]
+    private Transform actorRoot;
+
+    [SerializeField]
+    private Projectile projectilePrefab;
+
+    [SerializeField]
     private float speed = 10.0f;
 
     [SerializeField]
     private Transform visuals;
 
+    private Vector3 direction;
     private new Rigidbody rigidbody;
+
+    private void AdjustVisuals() {
+        this.visuals.LookAt(this.visuals.position + this.direction);
+    }
 
     private void Awake() {
         this.rigidbody = this.GetComponent<Rigidbody>();
+        this.direction = Vector3.forward;
     }
 
-    private void HandleInput() {
-        float horizontal = Input.GetAxis("Horizontal") * Time.deltaTime * speed;
-        float vertical = Input.GetAxis("Vertical") * Time.deltaTime * speed;
+    private void HandleMovement() {
+        Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+        movement *= Time.deltaTime * speed;
+        this.rigidbody.transform.Translate(movement);
 
-        this.rigidbody.transform.Translate(horizontal, 0, vertical);
+        if (!Mathf.Approximately(movement.magnitude, 0.0f)) {
+            this.direction = movement.normalized;
+        }
+    }
 
-        float angleRadians = Mathf.Atan2(vertical, horizontal);
-        float angleDegrees = (angleRadians * 180.0f / Mathf.PI + 360.0f) % 360.0f;
+    private void HandleShooting() {
+        if (Input.GetButtonDown("Fire1")) {
+            Projectile projectile = Object.Instantiate<Projectile>(
+                this.projectilePrefab,
+                this.transform.position + this.projectilePrefab.transform.position,
+                this.visuals.rotation,
+                this.actorRoot
+            );
+        }
+    }
 
-        Vector3 visualsEulerAngles = this.visuals.eulerAngles;
-        visualsEulerAngles.y = 180.0f - (angleDegrees + 90.0f);
-        this.visuals.eulerAngles = visualsEulerAngles;
+    private void LateUpdate() {
+        this.AdjustVisuals();
     }
 
     private void Update() {
-        this.HandleInput();        
+        this.HandleMovement();
+        this.HandleShooting();
     }
 }
