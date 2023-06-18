@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Brick
+  m_Name: Enemy
   m_Shader: {fileID: 4800000, guid: c74989460fd79e4468d86fa1a3738bcf, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -80,7 +80,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Color1: {r: 1, g: 1, b: 1, a: 1}
     - _Color2: {r: 0, g: 0, b: 0, a: 1}
-    - _ColorA: {r: 0.990566, g: 0.48451725, b: 0.07943219, a: 1}
-    - _ColorB: {r: 0.5943396, g: 0.2496004, b: 0.0028034954, a: 1}
+    - _ColorA: {r: 0.9384702, g: 0.12549019, b: 1, a: 1}
+    - _ColorB: {r: 1, g: 0, b: 0.0094127655, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

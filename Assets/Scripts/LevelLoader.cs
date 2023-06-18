@@ -55,7 +55,7 @@ public class LevelLoader : MonoBehaviour {
             int z = tilesPerSide - (i / tilesPerSide);
             float offset = tilesPerSide * 0.5f;
 
-            Debug.Log($"{i}: x:{x} z:{z} char:{text[i]}");
+            //Debug.Log($"{i}: x:{x} z:{z} char:{text[i]}");
             GameObject prefab = this.spawnablePerIdentifier[identifier];
 
             GameObject actor = Object.Instantiate<GameObject>(

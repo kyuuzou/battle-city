@@ -464,6 +464,10 @@ MonoBehaviour:
   level: {fileID: 4900000, guid: 60c890c8890ecc94f885cb03e16ce25a, type: 3}
   spawnablePrefabs:
   - {fileID: -3677838465726309463, guid: 7b4bf6c49f1a5694db3fb5552ad79732, type: 3}
+  - {fileID: -3677838465726309463, guid: aeb0100729e0ddd46bf2cbdd61e27805, type: 3}
+  - {fileID: -3677838465726309463, guid: d80c8078edb793a4b82986e0d1d1786d, type: 3}
+  - {fileID: -3677838465726309463, guid: dc3d1c076d928f64db6345befebf54f2, type: 3}
+  - {fileID: -3677838465726309463, guid: 5ed293ed41936ef4c800d9530f85c9c1, type: 3}
   tilesPerSide: 26
 --- !u!4 &1665711465
 Transform:
